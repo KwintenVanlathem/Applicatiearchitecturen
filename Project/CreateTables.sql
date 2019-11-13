@@ -10,7 +10,7 @@
  
 drop table docenten purge;
 drop table reservaties purge;
-drop table machine purge;
+drop table machines purge;
 drop table groepen purge;
 drop table gebruikers purge;
 
