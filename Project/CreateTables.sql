@@ -7,11 +7,12 @@
  * Author:  r0661567
  * Created: 13-nov-2019
  */
+ 
+drop table docenten purge;
+drop table reservaties purge;
 drop table machine purge;
 drop table groepen purge;
 drop table gebruikers purge;
-drop table docenten purge;
-drop table reservaties purge;
 
 
 create table gebruikers(
@@ -44,4 +45,28 @@ create table reservaties(
 create table docenten(
     naam varchar2(20) references gebruikers primary key,
     opleiding varchar2(10)
- );
+);
+
+insert into gebruikers values ('Jantje', 'Jantje');
+insert into gebruikers values ('Herman', 'Herman');
+insert into gebruikers values ('Jonas', 'Jonas');
+insert into gebruikers values ('Ben', 'Ben');
+insert into gebruikers values ('Ivens', 'Ivens');
+
+insert into groepen values ('Jantje', 'studenten');
+insert into groepen values ('Herman', 'docenten');
+insert into groepen values ('Jonas', 'studenten');
+insert into groepen values ('Ben', 'externen');
+
+insert into docenten values ('Herman', 'ict');
+insert into docenten values ('Ivens', 'em');
+
+insert into machines values ('Trekbank', 'Trekbank voor het labo sterkteleer', 'A008', 'em', 465132, 75000, 120);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31501, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31502, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31503, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31504, 1100, 40);
+insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1458, 1800, 60);
+insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1459, 1800, 60);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
