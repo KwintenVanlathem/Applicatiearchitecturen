@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -30,7 +31,31 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher view;
-        view= request.getRequestDispatcher("overzicht.jsp");
+        HttpSession session = request.getSession();
+        session.setAttribute("Username", request.getUserPrincipal().getName());
+        if (request.isUserInRole("Docent")) {
+            session.setAttribute("Rol", "Docent");
+            //plus get opleiding
+        }
+        else if (request.isUserInRole("Student")) {
+            session.setAttribute("Rol", "Student");
+        }
+        else if (request.isUserInRole("Externe")) {
+            session.setAttribute("Rol", "Externe");
+        }
+        
+        /* NEEDS FIXING
+        switch (request.getParameter("actie")) {
+            case "voegMachineToe": {
+                view = request.getRequestDispatcher("voegMachineToe.jsp");
+                break;
+            }
+            default: {
+                view = request.getRequestDispatcher("overzicht.jsp");
+                break;
+            }
+        }*/
+        view = request.getRequestDispatcher("overzicht.jsp");   //temp fix
         view.forward(request, response);
     }
 
