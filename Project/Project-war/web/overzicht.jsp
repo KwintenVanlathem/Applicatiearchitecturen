@@ -14,12 +14,10 @@
     </head>
     <body>
         <h1>Welkom ${sessionScope.Username} (${sessionScope.Rol})</h1>
-        ${sessionScope.actie}
         <c:if test="${sessionScope.Rol == 'Docent'}">
-            TODO: replace met voeg machine knop
-            <form action="Controller.do">
+            <form method="post" action="">
                 <input type="hidden" value="voegMachineToe" name="actie">
-                <input type="submit" value="Voeg machine toe"
+                <input type="submit" value="Voeg machine toe">
             </form>
         </c:if>
     </body>

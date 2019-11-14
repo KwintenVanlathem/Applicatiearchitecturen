@@ -16,8 +16,7 @@
         <h1>Welkom ${sessionScope.Username} (${sessionScope.Rol})</h1>
         ${sessionScope.actie}
         <c:if test="${sessionScope.Rol == 'Docent'}">
-            TODO: replace met voeg machine knop
-            <form action="Controller.do">
+            <form action=" " method="post">
                 <input type="hidden" value="voegMachineToe" name="actie">
                 <input type="submit" value="Voeg machine toe"
             </form>

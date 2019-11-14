@@ -44,18 +44,22 @@ public class Controller extends HttpServlet {
             session.setAttribute("Rol", "Externe");
         }
         
-        /* NEEDS FIXING
-        switch (request.getParameter("actie")) {
-            case "voegMachineToe": {
-                view = request.getRequestDispatcher("voegMachineToe.jsp");
-                break;
+        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen
+            switch (request.getParameter("actie")) {
+                case "voegMachineToe": {
+                    view = request.getRequestDispatcher("voegMachineToe.jsp");
+                    break;
+                }
+                default: {
+                    view = request.getRequestDispatcher("overzicht.jsp");
+                    break;
+                }
             }
-            default: {
-                view = request.getRequestDispatcher("overzicht.jsp");
-                break;
-            }
-        }*/
-        view = request.getRequestDispatcher("overzicht.jsp");   //temp fix
+        }
+        else {
+            view = request.getRequestDispatcher("overzicht.jsp");
+        }
+        
         view.forward(request, response);
     }
 
