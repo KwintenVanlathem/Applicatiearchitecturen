@@ -5,8 +5,12 @@
  */
 package ctrl;
 
+import beans.DatabankVerbindingRemote;
 import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +23,12 @@ import javax.servlet.http.HttpSession;
  */
 public class Controller extends HttpServlet {
 
+    @EJB private DatabankVerbindingRemote verbinding;
+    
+   // public void init() {
+    //    ServletContext applicatie;
+      //  applicatie = getServletContext();   //voorlopig nutteloos, eventueel later??
+    //}
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -43,6 +53,10 @@ public class Controller extends HttpServlet {
         else if (request.isUserInRole("Externe")) {
             session.setAttribute("Rol", "Externe");
         }
+        
+        List machines = verbinding.getMachines();
+        session.setAttribute("Machines", machines);
+        System.out.print(machines);
         
         if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen
             switch (request.getParameter("actie")) {
