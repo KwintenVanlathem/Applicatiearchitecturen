@@ -16,4 +16,6 @@ import javax.ejb.Remote;
 public interface DatabankVerbindingRemote {
     
     public List getMachines();
+
+   public Object getMachine(String serie);
 }

@@ -56,11 +56,16 @@ public class Controller extends HttpServlet {
         
         List machines = verbinding.getMachines();
         session.setAttribute("Machines", machines);
-        System.out.print(machines);
         
         if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen
             switch (request.getParameter("actie")) {
                 case "voegMachineToe": {
+                    view = request.getRequestDispatcher("voegMachineToe.jsp");
+                    break;
+                }
+                case "detail": {
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
+                    System.out.print(verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("voegMachineToe.jsp");
                     break;
                 }
