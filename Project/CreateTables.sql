@@ -57,6 +57,7 @@ insert into groepen values ('Jantje', 'studenten');
 insert into groepen values ('Herman', 'docenten');
 insert into groepen values ('Jonas', 'studenten');
 insert into groepen values ('Ben', 'externen');
+insert into groepen values ('Ivens', 'docenten');
 
 insert into docenten values ('Herman', 'ict');
 insert into docenten values ('Ivens', 'em');

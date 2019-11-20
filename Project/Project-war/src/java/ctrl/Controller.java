@@ -65,8 +65,14 @@ public class Controller extends HttpServlet {
                 }
                 case "detail": {
                     session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
-                    System.out.print(verbinding.getMachine(request.getParameter("serie")));
-                    view = request.getRequestDispatcher("voegMachineToe.jsp");
+                   // System.out.print(verbinding.getMachine(request.getParameter("serie")));
+                    view = request.getRequestDispatcher("detail.jsp");
+                    break;
+                }
+                case "bewerkMachine": {
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
+                   // System.out.print(verbinding.getMachine(request.getParameter("serie")));
+                    view = request.getRequestDispatcher("bewerkMachine.jsp");
                     break;
                 }
                 default: {
