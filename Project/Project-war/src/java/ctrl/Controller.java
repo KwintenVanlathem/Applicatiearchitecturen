@@ -5,12 +5,17 @@
  */
 package ctrl;
 
+import beans.DatabankVerbindingRemote;
 import java.io.IOException;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -18,6 +23,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class Controller extends HttpServlet {
 
+    @EJB private DatabankVerbindingRemote verbinding;
+    
+   // public void init() {
+    //    ServletContext applicatie;
+      //  applicatie = getServletContext();   //voorlopig nutteloos, eventueel later??
+    //}
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -30,7 +41,44 @@ public class Controller extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher view;
-        view= request.getRequestDispatcher("overzicht.jsp");
+        HttpSession session = request.getSession();
+        session.setAttribute("Username", request.getUserPrincipal().getName());
+        if (request.isUserInRole("Docent")) {
+            session.setAttribute("Rol", "Docent");
+            //plus get opleiding
+        }
+        else if (request.isUserInRole("Student")) {
+            session.setAttribute("Rol", "Student");
+        }
+        else if (request.isUserInRole("Externe")) {
+            session.setAttribute("Rol", "Externe");
+        }
+        
+        List machines = verbinding.getMachines();
+        session.setAttribute("Machines", machines);
+        
+        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen
+            switch (request.getParameter("actie")) {
+                case "voegMachineToe": {
+                    view = request.getRequestDispatcher("voegMachineToe.jsp");
+                    break;
+                }
+                case "detail": {
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
+                    System.out.print(verbinding.getMachine(request.getParameter("serie")));
+                    view = request.getRequestDispatcher("voegMachineToe.jsp");
+                    break;
+                }
+                default: {
+                    view = request.getRequestDispatcher("overzicht.jsp");
+                    break;
+                }
+            }
+        }
+        else {
+            view = request.getRequestDispatcher("overzicht.jsp");
+        }
+        
         view.forward(request, response);
     }
 
