@@ -45,7 +45,7 @@ public class Controller extends HttpServlet {
         session.setAttribute("Username", request.getUserPrincipal().getName());
         if (request.isUserInRole("Docent")) {
             session.setAttribute("Rol", "Docent");
-            //plus get opleiding
+            session.setAttribute("docentopleiding", verbinding.getDocentOpleiding(request.getUserPrincipal().getName()));
         }
         else if (request.isUserInRole("Student")) {
             session.setAttribute("Rol", "Student");

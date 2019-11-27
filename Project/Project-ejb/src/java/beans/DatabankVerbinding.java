@@ -61,4 +61,9 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         
         em.persist(m);
     }
+    
+    public String getDocentOpleiding(String username) {
+        Docenten d = (Docenten) em.createNamedQuery("Docenten.findByNaam").setParameter("naam", username).getSingleResult();
+        return d.getOpleiding();
+    }
 }

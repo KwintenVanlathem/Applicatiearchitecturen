@@ -23,7 +23,7 @@
             <tr><th colspan="3">Omschrijving</th></tr>
             <tr><td colspan="3">${sessionScope.machine.omschrijving}</td></tr>
         </table>
-        <c:if test="${sessionScope.Rol == 'Docent'}">
+            <c:if test="${sessionScope.Rol == 'Docent' and sessionScope.docentopleiding == sessionScope.machine.opleiding}">
             <form method="post" action="">
                 <input type="hidden" value="${sessionScope.machine.serienummer}" name="serie">
                 <input type="hidden" value="bewerkMachine" name="actie">
