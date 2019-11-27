@@ -6,6 +6,7 @@
 package beans;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,5 +30,22 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
 
     public Object getMachine(String serie) {
         return em.createNamedQuery("Machines.findBySerienummer").setParameter("serienummer", new BigDecimal(serie)).getSingleResult();
+    }
+    
+    public void newMachine(String serienummer, String opleiding, String omschrijving, String naam, String aankoopprijs, String huurprijs, String lokaal) {
+        Machines m = new Machines();
+        
+       // m.setReservatiesCollection(reservatiesCollection);  //geen idee wat dit doet
+        m.setSerienummer(new BigDecimal(serienummer));
+        m.setOpleiding(opleiding);
+        m.setOmschrijving(omschrijving);
+        m.setNaam(naam);
+        m.setLokaal(lokaal);
+        m.setHuurprijs(new BigInteger(huurprijs));
+        m.setAankoopprijs(new BigInteger(aankoopprijs));
+        
+        em.persist(m);
+        
+        //em.p;
     }
 }
