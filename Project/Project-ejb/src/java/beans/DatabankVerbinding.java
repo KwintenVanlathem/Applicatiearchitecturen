@@ -45,7 +45,20 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         m.setAankoopprijs(new BigInteger(aankoopprijs));
         
         em.persist(m);
+    }
+    
+    public void updateMachine(String serienummer, String opleiding, String omschrijving, String naam, String aankoopprijs, String huurprijs, String lokaal) {
+        Machines m = (Machines) getMachine(serienummer);
         
-        //em.p;
+       // m.setReservatiesCollection(reservatiesCollection);  //geen idee wat dit doet
+        m.setSerienummer(new BigDecimal(serienummer));
+        m.setOpleiding(opleiding);
+        m.setOmschrijving(omschrijving);
+        m.setNaam(naam);
+        m.setLokaal(lokaal);
+        m.setHuurprijs(new BigInteger(huurprijs));
+        m.setAankoopprijs(new BigInteger(aankoopprijs));
+        
+        em.persist(m);
     }
 }

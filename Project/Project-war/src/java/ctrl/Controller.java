@@ -81,6 +81,13 @@ public class Controller extends HttpServlet {
                     view = request.getRequestDispatcher("detail.jsp");
                     break;
                 }
+                case "save": {
+                   //insert functie
+                    verbinding.updateMachine(request.getParameter("serie"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    view = request.getRequestDispatcher("detail.jsp");
+                    break;
+                }
                 default: {
                     view = request.getRequestDispatcher("overzicht.jsp");
                     break;

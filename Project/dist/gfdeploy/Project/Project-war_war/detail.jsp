@@ -13,6 +13,7 @@
         <title>DetailMachine</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
         <h1>Detail Machine</h1>
         <table>
             <tr><th>Serienummer</th><th>Naam</th><th>Lokaal</th></tr>

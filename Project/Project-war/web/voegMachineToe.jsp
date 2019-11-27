@@ -12,6 +12,7 @@
         <title>VoegMachineToe</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
         <h1>Voeg machine toe</h1>
         <form method="post" action="">
             <table>

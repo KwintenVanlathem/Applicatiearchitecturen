@@ -13,6 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
         <h1>Welkom ${sessionScope.Username} (${sessionScope.Rol})</h1>
         <table>
             <tr><th>Naam</th><th>Omschrijving</th><th>Lokaal</th></tr>

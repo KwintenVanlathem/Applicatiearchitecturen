@@ -12,6 +12,7 @@
         <title>BewerkMachine</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
         <h1>Bewerk Machine</h1>
         <form method="post" action="">
             <table>
