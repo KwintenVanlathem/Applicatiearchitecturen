@@ -57,7 +57,7 @@ public class Controller extends HttpServlet {
         List machines = verbinding.getMachines();
         session.setAttribute("Machines", machines);    //eerder response dan session??
         
-        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen
+        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen, header maakt hier ook gebruik van
             switch (request.getParameter("actie")) {
                 case "detail": {
                     session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
@@ -76,13 +76,13 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "new": {
+                    //nog checken dat serienummer wel beschikbaar is
                     verbinding.newMachine(request.getParameter("serienummer"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
                     session.setAttribute("machine", verbinding.getMachine(request.getParameter("serienummer")));    //eerder response dan session??
                     view = request.getRequestDispatcher("detail.jsp");
                     break;
                 }
                 case "save": {
-                   //insert functie
                     verbinding.updateMachine(request.getParameter("serie"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
                     session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
                     view = request.getRequestDispatcher("detail.jsp");

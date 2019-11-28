@@ -19,10 +19,11 @@
                 <tr><th>Serienummer</th><th>Naam</th><th>Lokaal</th></tr>
                 <tr><td><input type="text" name="serienummer"></td><td><input type="text" name="naam"></td><td><input type="text" name="lokaal"></td></tr>
                 <tr><th>Aankoopprijs</th><th>Huurprijs</th><th>Opleiding</th></tr>
-                <tr><td><input type="text" name="aankoopprijs"></td><td><input type="text" name="huurprijs"></td><td><input type="text" name="opleiding"></td></tr>
+                <tr><td><input type="text" name="aankoopprijs"></td><td><input type="text" name="huurprijs"></td><td>${sessionScope.docentopleiding}</td></tr>
                 <tr><th colspan="3">Omschrijving</th></tr>
                 <tr><td colspan="3"><textarea name="omschrijving"></textarea></td></tr>
             </table>
+            <input type="hidden" value="${sessionScope.docentopleiding}" name="opleiding">
             <input type="hidden" value="new" name="actie">
             <input type="submit" value="Bewaar">
         </form>
