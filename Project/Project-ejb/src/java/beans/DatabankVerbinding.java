@@ -7,6 +7,7 @@ package beans;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,5 +66,17 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
     public String getDocentOpleiding(String username) {
         Docenten d = (Docenten) em.createNamedQuery("Docenten.findByNaam").setParameter("naam", username).getSingleResult();
         return d.getOpleiding();
+    }
+    
+    
+    public List[] getMachinesNamen() {
+        List lijst[] = new ArrayList[2];
+        lijst[0] = new ArrayList();
+        lijst[1] = new ArrayList();
+        for (Object m : getMachines()) {
+            lijst[0].add(((Machines) m).getNaam());
+            lijst[1].add(((Machines) m).getSerienummer());
+        }
+        return lijst;
     }
 }

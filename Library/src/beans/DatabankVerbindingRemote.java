@@ -20,4 +20,6 @@ public interface DatabankVerbindingRemote {
     public void newMachine(String serienummer, String opleiding, String omschrijving, String naam, String aankoopprijs, String huurprijs, String lokaal);
     public void updateMachine(String serienummer, String opleiding, String omschrijving, String naam, String aankoopprijs, String huurprijs, String lokaal);
     public String getDocentOpleiding(String username);
+
+    public List[] getMachinesNamen();
 }
