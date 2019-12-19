@@ -7,6 +7,7 @@ package swingapp;
 
 import java.util.List;
 import java.awt.*;
+import java.util.ArrayList;
 import javax.swing.*;
 //import beans.
 
@@ -18,18 +19,22 @@ public class MainView extends JFrame {
     
     public OverzichtLijstItem item;
     
-    public MainView(Main c, List[] machines) {
+    public MainView(Main c, ArrayList machines) {
         Container pane = getContentPane();
-        setLayout(new GridLayout(1,1));
+        setLayout(new GridLayout(machines.size(),1));
         
-        
-        for (Object m : machines[0]) {
-            System.out.println(m);
+        String naam;
+        String id;
+        String m[];
+        for (Object o : machines) {
+            m = (String[]) o;
+            naam = m[0];
+            id = m[1];
+            item = new OverzichtLijstItem(c, id, naam);
+            pane.add(item);
         }
         
         
-        item = new OverzichtLijstItem(c, "1234", "Test");
-        pane.add(item);
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);

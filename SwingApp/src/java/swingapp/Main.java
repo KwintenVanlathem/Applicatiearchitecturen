@@ -6,7 +6,6 @@
 package swingapp;
 
 import beans.DatabankVerbindingRemote;
-import java.util.List;
 import javax.ejb.EJB;
 
 /**
@@ -15,8 +14,7 @@ import javax.ejb.EJB;
  */
 public class Main {
 
-    private static Frame frame;
-    private static MainView f;
+    private static MainView frame;
 
     @EJB private static DatabankVerbindingRemote verbinding;
     
@@ -25,12 +23,16 @@ public class Main {
     }
     
     public Main() {
-        //verbinding = new Databank();
-        List machines[] = verbinding.getMachinesNamen();
-        f = new MainView(this, machines);
+        frame = new MainView(this, verbinding.getMachinesNamen());
     }
     
     public void toonResOverzicht(String serie) {
         System.out.println(serie);
+        String m[];
+        for (Object o : verbinding.getMachineReservaties(serie)) {
+            m = (String[]) o;
+            System.out.println(m[0]);
+            System.out.println(m[1]);
+        }
     }
 }

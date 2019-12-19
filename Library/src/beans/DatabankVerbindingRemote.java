@@ -5,6 +5,7 @@
  */
 package beans;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Remote;
 
@@ -21,5 +22,6 @@ public interface DatabankVerbindingRemote {
     public void updateMachine(String serienummer, String opleiding, String omschrijving, String naam, String aankoopprijs, String huurprijs, String lokaal);
     public String getDocentOpleiding(String username);
 
-    public List[] getMachinesNamen();
+    public ArrayList getMachinesNamen();
+    public ArrayList getMachineReservaties(String serie);
 }

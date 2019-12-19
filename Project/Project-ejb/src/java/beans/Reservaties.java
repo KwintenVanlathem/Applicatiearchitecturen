@@ -29,6 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Reservaties.findByMoment", query = "SELECT r FROM Reservaties r WHERE r.reservatiesPK.moment = :moment")})
 public class Reservaties implements Serializable {
 
+    @JoinColumn(name = "GEBRUIKER", referencedColumnName = "GEBRUIKERSNAAM")
+    @ManyToOne
+    private Gebruikers gebruiker;
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ReservatiesPK reservatiesPK;
@@ -86,6 +90,14 @@ public class Reservaties implements Serializable {
     @Override
     public String toString() {
         return "beans.Reservaties[ reservatiesPK=" + reservatiesPK + " ]";
+    }
+
+    public Gebruikers getGebruiker() {
+        return gebruiker;
+    }
+
+    public void setGebruiker(Gebruikers gebruiker) {
+        this.gebruiker = gebruiker;
     }
     
 }

@@ -69,13 +69,25 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
     }
     
     
-    public List[] getMachinesNamen() {
-        List lijst[] = new ArrayList[2];
-        lijst[0] = new ArrayList();
-        lijst[1] = new ArrayList();
+    public ArrayList getMachinesNamen() {
+        ArrayList lijst = new ArrayList();
         for (Object m : getMachines()) {
-            lijst[0].add(((Machines) m).getNaam());
-            lijst[1].add(((Machines) m).getSerienummer());
+            String pair[] = new String[2];
+            pair[0] = (((Machines) m).getNaam());
+            pair[1] = (((Machines) m).getSerienummer()).toString();
+            lijst.add(pair);
+        }
+        return lijst;
+    }
+    
+    public ArrayList getMachineReservaties(String serie) {
+        List queryres = em.createNamedQuery("Reservaties.findBySerienummer").setParameter("serienummer", new BigDecimal(serie)).getResultList();
+        ArrayList lijst = new ArrayList();
+        for (Object r : queryres) {
+            String res[] = new String[2];
+            res[0] = ((Reservaties) r).getReservatiesPK().getMoment();
+            res[1] = ((Reservaties) r).getGebruiker().getGebruikersnaam();
+            lijst.add(res);
         }
         return lijst;
     }
