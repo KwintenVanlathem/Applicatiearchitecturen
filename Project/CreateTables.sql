@@ -52,6 +52,7 @@ insert into gebruikers values ('Herman', 'Herman');
 insert into gebruikers values ('Jonas', 'Jonas');
 insert into gebruikers values ('Ben', 'Ben');
 insert into gebruikers values ('Ivens', 'Ivens');
+insert into gebruikers values ('VRIJ', 'ISGEENECHTEGEBRUIKER');
 
 insert into groepen values ('Jantje', 'studenten');
 insert into groepen values ('Herman', 'docenten');
@@ -71,3 +72,8 @@ insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in 
 insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1459, 1800, 60);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
+
+insert into reservaties values (31120, 'Jonas', 'Maandag voormiddag');
+insert into reservaties values (31120, 'VRIJ', 'Maandag namiddag');
+insert into reservaties values (31120, 'VRIJ', 'Dinsdag voormiddag');
+insert into reservaties values (31120, 'Ben', 'Dinsdag namiddag');

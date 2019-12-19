@@ -5,11 +5,9 @@
  */
 package swingapp;
 
-import java.util.List;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
-//import beans.
 
 /**
  *
@@ -33,7 +31,6 @@ public class MainView extends JFrame {
             item = new OverzichtLijstItem(c, id, naam);
             pane.add(item);
         }
-        
         
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -20,11 +20,6 @@ public class Main {
     
     public void toonResOverzicht(String serie) {
         System.out.println(serie);
-        String m[];
-        for (Object o : verbinding.getMachineReservaties(serie)) {
-            m = (String[]) o;
-            System.out.println(m[0]);
-            System.out.println(m[1]);
-        }
+        new ResView(verbinding.getMachineReservaties(serie));
     }
 }
