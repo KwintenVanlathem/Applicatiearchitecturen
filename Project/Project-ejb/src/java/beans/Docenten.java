@@ -32,10 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Docenten.findByOpleiding", query = "SELECT d FROM Docenten d WHERE d.opleiding = :opleiding")})
 public class Docenten implements Serializable {
 
-    @JoinColumn(name = "NAAM", referencedColumnName = "GEBRUIKERSNAAM")
-    @OneToOne(optional = false)
-    private Gebruikers gebruikers;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -46,6 +42,9 @@ public class Docenten implements Serializable {
     @Size(max = 10)
     @Column(name = "OPLEIDING")
     private String opleiding;
+    @JoinColumn(name = "NAAM", referencedColumnName = "GEBRUIKERSNAAM", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Gebruikers gebruikers;
 
     public Docenten() {
     }
@@ -68,6 +67,14 @@ public class Docenten implements Serializable {
 
     public void setOpleiding(String opleiding) {
         this.opleiding = opleiding;
+    }
+
+    public Gebruikers getGebruikers() {
+        return gebruikers;
+    }
+
+    public void setGebruikers(Gebruikers gebruikers) {
+        this.gebruikers = gebruikers;
     }
 
     @Override
@@ -93,14 +100,6 @@ public class Docenten implements Serializable {
     @Override
     public String toString() {
         return "beans.Docenten[ naam=" + naam + " ]";
-    }
-
-    public Gebruikers getGebruikers() {
-        return gebruikers;
-    }
-
-    public void setGebruikers(Gebruikers gebruikers) {
-        this.gebruikers = gebruikers;
     }
     
 }
