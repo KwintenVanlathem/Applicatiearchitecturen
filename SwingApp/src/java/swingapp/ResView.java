@@ -8,6 +8,8 @@ package swingapp;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,10 +18,19 @@ import javax.swing.JFrame;
 public class ResView extends JFrame {
     
     public ResLijstItem item;
+    public JPanel header;
     
     public ResView(ArrayList reservaties) {
         Container pane = getContentPane();
-        setLayout(new GridLayout(reservaties.size(),1));
+        setLayout(new GridLayout(reservaties.size()+1,1));
+        
+        header = new JPanel();
+        JLabel naamL = new JLabel("Naam");
+        JLabel momentL = new JLabel("Moment");
+        header.setLayout(new GridLayout(1,2));
+        header.add(momentL);
+        header.add(naamL);
+        add(header);
         
         String naam;
         String moment;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package swingapp;
 
 import java.awt.*;
@@ -25,6 +20,7 @@ public class ResLijstItem extends JPanel {
         this.setBackground(new Color(200, 200, 200));
         if(naam.equals("VRIJ")) {
             this.setBackground(new Color(230, 230, 230));
+            naamL.setText("");
         }
     }
 }

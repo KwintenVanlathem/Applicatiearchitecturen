@@ -64,16 +64,19 @@ insert into docenten values ('Herman', 'ict');
 insert into docenten values ('Ivens', 'em');
 
 insert into machines values ('Trekbank', 'Trekbank voor het labo sterkteleer', 'A008', 'em', 465132, 75000, 120);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31501, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31502, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31503, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31504, 1100, 40);
 insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1458, 1800, 60);
-insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1459, 1800, 60);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
 
 insert into reservaties values (31120, 'Jonas', 'Maandag voormiddag');
 insert into reservaties values (31120, 'VRIJ', 'Maandag namiddag');
 insert into reservaties values (31120, 'VRIJ', 'Dinsdag voormiddag');
 insert into reservaties values (31120, 'Ben', 'Dinsdag namiddag');
+insert into reservaties values (31120, 'Jantje', 'Woensdag voormiddag');
+insert into reservaties values (31120, 'VRIJ', 'Woensdag namiddag');
+
+insert into reservaties values (465132, 'VRIJ', 'Maandag voormiddag');
+insert into reservaties values (465132, 'VRIJ', 'Maandag namiddag');
+insert into reservaties values (465132, 'Ivens', 'Dinsdag voormiddag');
+insert into reservaties values (465132, 'Ivens', 'Dinsdag namiddag');
+insert into reservaties values (465132, 'VRIJ', 'Woensdag voormiddag');
+insert into reservaties values (465132, 'VRIJ', 'Woensdag namiddag');

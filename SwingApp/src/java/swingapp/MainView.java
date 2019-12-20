@@ -16,10 +16,21 @@ import javax.swing.*;
 public class MainView extends JFrame {
     
     public OverzichtLijstItem item;
+    public JPanel header;
     
     public MainView(Main c, ArrayList machines) {
         Container pane = getContentPane();
-        setLayout(new GridLayout(machines.size(),1));
+        setLayout(new GridLayout(machines.size()+1,1));
+        
+        header = new JPanel();
+        JLabel serieL = new JLabel("Serienummer");
+        JLabel naamL = new JLabel("Naam");
+        JLabel knopL = new JLabel(" ");
+        header.setLayout(new GridLayout(1,3));
+        header.add(serieL);
+        header.add(naamL);
+        header.add(knopL);
+        add(header);
         
         String naam;
         String id;
