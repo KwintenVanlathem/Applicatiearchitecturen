@@ -7,7 +7,7 @@ package ctrl;
 
 import beans.DatabankVerbindingRemote;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -63,6 +63,26 @@ public class Controller extends HttpServlet {
                     session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
                    // System.out.print(verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("detail.jsp");
+                    break;
+                }
+                case "reservatie": {
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    Date today = new Date();
+                    Calendar date = GregorianCalendar.getInstance();
+                    date.setTime(today);
+                    List<Integer> dates = new ArrayList<Integer>();
+                    date.roll(Calendar.DAY_OF_YEAR, -(date.get(Calendar.DAY_OF_WEEK)-2));
+                    
+                    for (int i = 0; i < 7; i++)
+                    {
+                        dates.add(date.get(Calendar.DAY_OF_MONTH));
+                        dates.add(date.get(Calendar.MONTH)+ 1);
+                        date.roll(Calendar.DAY_OF_YEAR, true);
+                    }
+                    int index[] = new int[]{0,1,2,3,4,5,6};
+                    request.setAttribute("index", index);
+                    request.setAttribute("dates", dates);
+                    view = request.getRequestDispatcher("reservatie.jsp");
                     break;
                 }
                 case "bewerkMachine": {

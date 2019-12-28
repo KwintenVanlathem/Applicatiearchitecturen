@@ -18,12 +18,25 @@
         <table>
             <tr><th>Naam</th><th>Omschrijving</th><th>Lokaal</th></tr>
             <c:forEach var="machine" items="${sessionScope.Machines}">
-                <tr><td>${machine.naam}</td><td>${machine.omschrijving}</td><td>${machine.lokaal}</td><td>
+                <tr>
+                    <td>${machine.naam}</td>
+                    <td>${machine.omschrijving}</td>
+                    <td>${machine.lokaal}</td>
+                    <td>
                         <form method="post" action="">
                             <input type="hidden" value="detail" name="actie">
                             <input type="hidden" value="${machine.serienummer}" name="serie">
                             <input type="submit" value="Detail">
-                        </form></td></tr>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="post" action="">
+                            <input type="hidden" value="reservatie" name="actie">
+                            <input type="hidden" value="${machine.serienummer}" name="serie">
+                            <input type="submit" value="Reserveer">
+                        </form>
+                    </td>
+                </tr>
             </c:forEach>
         </table>
         <c:if test="${sessionScope.Rol == 'Docent'}">

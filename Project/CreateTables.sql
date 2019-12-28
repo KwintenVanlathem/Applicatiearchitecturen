@@ -38,8 +38,12 @@ create table machines(
 create table reservaties(
     serienummer int references machines,
     gebruiker varchar2(20) references gebruikers,
-    moment varchar2(50),
-    primary key(serienummer, moment)
+    dag int,
+    jaar int,
+    uur int,
+    duur int,
+    rnr int,
+    primary key(serienummer, rnr)
 );
 
 create table docenten(
@@ -52,7 +56,6 @@ insert into gebruikers values ('Herman', 'Herman');
 insert into gebruikers values ('Jonas', 'Jonas');
 insert into gebruikers values ('Ben', 'Ben');
 insert into gebruikers values ('Ivens', 'Ivens');
-insert into gebruikers values ('VRIJ', 'ISGEENECHTEGEBRUIKER');
 
 insert into groepen values ('Jantje', 'studenten');
 insert into groepen values ('Herman', 'docenten');
@@ -64,19 +67,15 @@ insert into docenten values ('Herman', 'ict');
 insert into docenten values ('Ivens', 'em');
 
 insert into machines values ('Trekbank', 'Trekbank voor het labo sterkteleer', 'A008', 'em', 465132, 75000, 120);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31501, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31502, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31503, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31504, 1100, 40);
 insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1458, 1800, 60);
+insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1459, 1800, 60);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
+insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
 
-insert into reservaties values (31120, 'Jonas', 'Maandag voormiddag');
-insert into reservaties values (31120, 'VRIJ', 'Maandag namiddag');
-insert into reservaties values (31120, 'VRIJ', 'Dinsdag voormiddag');
-insert into reservaties values (31120, 'Ben', 'Dinsdag namiddag');
-insert into reservaties values (31120, 'Jantje', 'Woensdag voormiddag');
-insert into reservaties values (31120, 'VRIJ', 'Woensdag namiddag');
-
-insert into reservaties values (465132, 'VRIJ', 'Maandag voormiddag');
-insert into reservaties values (465132, 'VRIJ', 'Maandag namiddag');
-insert into reservaties values (465132, 'Ivens', 'Dinsdag voormiddag');
-insert into reservaties values (465132, 'Ivens', 'Dinsdag namiddag');
-insert into reservaties values (465132, 'VRIJ', 'Woensdag voormiddag');
-insert into reservaties values (465132, 'VRIJ', 'Woensdag namiddag');
+insert into reservaties values (1458, 'Jantje', 363, 2019, 13, 3, 1);
+insert into reservaties values (1458, 'Jonas', 363, 2019, 17, 1, 2);
+insert into reservaties values (1458, 'Ben', 363, 2019, 10, 2, 3);
