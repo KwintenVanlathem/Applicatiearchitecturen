@@ -7,6 +7,7 @@ package beans;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,27 +16,29 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.*;
 
 /**
  *
- * @author kwint
+ * @author jelle
  */
 @Entity
 @Table(name = "RESERVATIES")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reservaties.findAll", query = "SELECT r FROM Reservaties r")
-    , @NamedQuery(name = "Reservaties.findBySerienummer", query = "SELECT r FROM Reservaties r WHERE r.reservatiesPK.serienummer = :serienummer")
+    , @NamedQuery(name = "Reservaties.findBySerienummer", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NOT NULL and r.reservatiesPK.serienummer = :serienummer")
+    , @NamedQuery(name = "Reservaties.findFreeMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer")
+    , @NamedQuery(name = "Reservaties.findSingelMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer and r.reservatiesPK.moment = :datum")
     , @NamedQuery(name = "Reservaties.findByMoment", query = "SELECT r FROM Reservaties r WHERE r.reservatiesPK.moment = :moment")})
 public class Reservaties implements Serializable {
-
-    @JoinColumn(name = "GEBRUIKER", referencedColumnName = "GEBRUIKERSNAAM")
-    @ManyToOne
-    private Gebruikers gebruiker;
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected ReservatiesPK reservatiesPK;
+    @JoinColumn(name = "GEBRUIKER", referencedColumnName = "GEBRUIKERSNAAM")
+    @ManyToOne
+    private Gebruikers gebruiker;
     @JoinColumn(name = "SERIENUMMER", referencedColumnName = "SERIENUMMER", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Machines machines;
@@ -47,16 +50,24 @@ public class Reservaties implements Serializable {
         this.reservatiesPK = reservatiesPK;
     }
 
-    public Reservaties(BigInteger serienummer, String moment) {
+    public Reservaties(BigInteger serienummer, Calendar moment) {
         this.reservatiesPK = new ReservatiesPK(serienummer, moment);
     }
-
+    
     public ReservatiesPK getReservatiesPK() {
         return reservatiesPK;
     }
 
     public void setReservatiesPK(ReservatiesPK reservatiesPK) {
         this.reservatiesPK = reservatiesPK;
+    }
+
+    public Gebruikers getGebruiker() {
+        return gebruiker;
+    }
+
+    public void setGebruiker(Gebruikers gebruiker) {
+        this.gebruiker = gebruiker;
     }
 
     public Machines getMachines() {
@@ -90,14 +101,6 @@ public class Reservaties implements Serializable {
     @Override
     public String toString() {
         return "beans.Reservaties[ reservatiesPK=" + reservatiesPK + " ]";
-    }
-
-    public Gebruikers getGebruiker() {
-        return gebruiker;
-    }
-
-    public void setGebruiker(Gebruikers gebruiker) {
-        this.gebruiker = gebruiker;
     }
     
 }

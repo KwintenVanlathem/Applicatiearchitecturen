@@ -14,17 +14,64 @@
     </head>
     <body>
         <%@include file="header.jsp"%>
-        <h1>Reservatie van: ${sessionScope.machine.naam}</h1>
+        <h1>Reservatie van: ${requestScope.machine.naam}</h1>
         <table>
             <tr>
-                <th>Maandag</th><th>Dinsdag</th><th>Woensdag</th><th>Donderdag</th><th>Vrijdag</th><th>Zaterdag</th><th>Zondag</th>
+                <th></th><th>Maandag</th><th>Dinsdag</th><th>Woensdag</th><th>Donderdag</th><th>Vrijdag</th><th>Zaterdag</th><th>Zondag</th>
             </tr>
             <tr>
-                <c:forEach var="index" items="${requestScope.index}">
+                <th>Uur:</th>
+                <c:forEach var="index" begin="0" end="6">
                 <th>${requestScope.dates.get(2*index)}/${requestScope.dates.get(2*index+1)}</th>
                 </c:forEach>
             </tr>
+            <c:forEach var="uur" begin="8" end="19">
+                <tr>
+                    <th>
+                        ${uur} uur:
+                    </th>
+                    <c:forEach var="dag" begin="1" end="7">
+                        <th>
+                            <c:forEach var="res" items="${requestScope.reservaties}">
+                                <c:if test="${res[1]==dag}">
+                                    <c:if test="${res[2]==uur}">
+                                        <c:if test="${res[0]=='Vrij'}">
+                                            <form method="post" action="">
+                                                <input type="hidden" value="${requestScope.machine.serienummer}" name="serie">
+                                                <input type="hidden" value="Reserveer" name="actie">
+                                                <input type="hidden" value="${res[0]}" name="gebruiker">
+                                                <input type="hidden" value="${res[1]}" name="dag">
+                                                <input type="hidden" value="${res[2]}" name="uur">
+                                                <input type="submit" value="
             
+                                        </c:if>
+                                        ${res[0]}
+                                        <c:if test="${res[0]=='Vrij'}">
+                                                ">
+                                            </form>
+                                        </c:if>
+                                        
+                                    </c:if>
+                                </c:if>
+                            </c:forEach>
+                        </th>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
         </table>
+        <c:if test="${sessionScope.Rol == 'Docent' and sessionScope.docentopleiding == requestScope.machine.opleiding}">
+            <form method="post" action="">
+                <input type="hidden" value="${requestScope.machine.serienummer}" name="serie">
+                
+                <input type="hidden" value="VoegMomentToe" name="actie">
+                <input type="submit" value="Voeg moment toe">
+            </form>
+        </c:if>
+        <c:forEach var="res" items="${requestScope.reservaties}">
+                user: ${res[0]}
+                dag: ${res[1]}
+                uur: ${res[2]}
+                <br>
+        </c:forEach>
     </body>
 </html>

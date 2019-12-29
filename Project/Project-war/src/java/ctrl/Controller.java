@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package ctrl;
-
 import beans.DatabankVerbindingRemote;
 import java.io.IOException;
 import java.util.*;
@@ -66,12 +65,13 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "reservatie": {
-                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
                     Date today = new Date();
                     Calendar date = GregorianCalendar.getInstance();
                     date.setTime(today);
                     List<Integer> dates = new ArrayList<Integer>();
-                    date.roll(Calendar.DAY_OF_YEAR, -(date.get(Calendar.DAY_OF_WEEK)-2));
+                    
+                    date.roll(Calendar.DAY_OF_YEAR, -((5 + date.get(Calendar.DAY_OF_WEEK))%7));
                     
                     for (int i = 0; i < 7; i++)
                     {
@@ -79,10 +79,35 @@ public class Controller extends HttpServlet {
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         date.roll(Calendar.DAY_OF_YEAR, true);
                     }
-                    int index[] = new int[]{0,1,2,3,4,5,6};
-                    request.setAttribute("index", index);
                     request.setAttribute("dates", dates);
+                    //lijst = vrij  (if prof: +res)
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"));
+                    if (request.isUserInRole("Docent")) {
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie")));
+                    }
+                    request.setAttribute("reservaties", lijst);//bij student moet vrije moment w meegegeven
+                    
                     view = request.getRequestDispatcher("reservatie.jsp");
+                    break;
+                }
+                case "Reserveer":{
+                    verbinding.reserveer(request.getParameter("serie"), request.getParameter("dag"), request.getParameter("uur"), request.getParameter("gebruiker"));
+                    view = request.getRequestDispatcher("overzicht.jsp");
+                    break;
+//pas reservatie van moment dag+uur van machine serie aan met gebruikersnaam
+                }
+                case "VoegMomentToe":{
+                    //request.setAttribute("serie",request.getParameter("serie"));
+                    
+                    System.out.println("serienummer: " + request.getParameter("serie"));
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
+                    view = request.getRequestDispatcher("NieuwMoment.jsp");
+                    break;
+                }
+                case "Toegevoegd":{
+                    verbinding.voegVrijToe(request.getParameter("serie"), request.getParameter("dag"), request.getParameter("maand"), request.getParameter("jaar"), request.getParameter("uur"));
+                    //maand -1
+                    view = request.getRequestDispatcher("overzicht.jsp");
                     break;
                 }
                 case "bewerkMachine": {

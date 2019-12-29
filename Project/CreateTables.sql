@@ -35,15 +35,12 @@ create table machines(
     huurprijs int
 );
 
+
 create table reservaties(
     serienummer int references machines,
     gebruiker varchar2(20) references gebruikers,
-    dag int,
-    jaar int,
-    uur int,
-    duur int,
-    rnr int,
-    primary key(serienummer, rnr)
+    moment date,
+    primary key(serienummer, moment)
 );
 
 create table docenten(
@@ -76,6 +73,13 @@ insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in 
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
 
-insert into reservaties values (1458, 'Jantje', 363, 2019, 13, 3, 1);
-insert into reservaties values (1458, 'Jonas', 363, 2019, 17, 1, 2);
-insert into reservaties values (1458, 'Ben', 363, 2019, 10, 2, 3);
+insert into reservaties values (1458, 'Jantje', to_date('2019/12/29 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jonas', to_date('2019/12/28 17:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Ben', to_date('2019/12/23 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/29 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/29 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/25 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/18 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/10 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/29 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2019/12/31 16:00:00','yyyy/mm/dd hh24:mi:ss'));

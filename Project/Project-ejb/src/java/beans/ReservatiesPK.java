@@ -7,15 +7,18 @@ package beans;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.Calendar;
 
 /**
  *
- * @author kwint
+ * @author jelle
  */
 @Embeddable
 public class ReservatiesPK implements Serializable {
@@ -26,14 +29,14 @@ public class ReservatiesPK implements Serializable {
     private BigInteger serienummer;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "MOMENT")
-    private String moment;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar moment;
 
     public ReservatiesPK() {
     }
 
-    public ReservatiesPK(BigInteger serienummer, String moment) {
+    public ReservatiesPK(BigInteger serienummer, Calendar moment) {
         this.serienummer = serienummer;
         this.moment = moment;
     }
@@ -46,11 +49,11 @@ public class ReservatiesPK implements Serializable {
         this.serienummer = serienummer;
     }
 
-    public String getMoment() {
+    public Calendar getMoment() {
         return moment;
     }
 
-    public void setMoment(String moment) {
+    public void setMoment(Calendar moment) {
         this.moment = moment;
     }
 
