@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import java.time.*;
 /**
  *
  * @author r0661567
@@ -67,23 +67,29 @@ public class Controller extends HttpServlet {
                 case "reservatie": {
                     request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
                     Date today = new Date();
-                    Calendar date = GregorianCalendar.getInstance();
+                    Calendar date = Calendar.getInstance();
                     date.setTime(today);
+                    date.set(Calendar.HOUR, 0);
+                    date.set(Calendar.MINUTE, 0);
+                    date.set(Calendar.SECOND, 0);
+                    Calendar maandag = (Calendar)date.clone();
                     List<Integer> dates = new ArrayList<Integer>();
                     
-                    date.roll(Calendar.DAY_OF_YEAR, -((5 + date.get(Calendar.DAY_OF_WEEK))%7));
+                    date.add(Calendar.DAY_OF_YEAR, -((5 + date.get(Calendar.DAY_OF_WEEK))%7));
                     
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
-                        date.roll(Calendar.DAY_OF_YEAR, true);
+                        dates.add(date.get(Calendar.YEAR));
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
+                    Calendar zondag = (Calendar)date.clone();
                     request.setAttribute("dates", dates);
                     //lijst = vrij  (if prof: +res)
-                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"));
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),maandag,zondag);
                     if (request.isUserInRole("Docent")) {
-                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie")));
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),maandag,zondag));
                     }
                     request.setAttribute("reservaties", lijst);//bij student moet vrije moment w meegegeven
                     
@@ -91,7 +97,7 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "Reserveer":{
-                    verbinding.reserveer(request.getParameter("serie"), request.getParameter("dag"), request.getParameter("uur"), request.getParameter("gebruiker"));
+                    verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
                     view = request.getRequestDispatcher("overzicht.jsp");
                     break;
 //pas reservatie van moment dag+uur van machine serie aan met gebruikersnaam

@@ -74,7 +74,7 @@ insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
 
 insert into reservaties values (1458, 'Jantje', to_date('2019/12/29 13:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, 'Jonas', to_date('2019/12/28 17:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jonas', to_date('2019/12/31 17:00:00','yyyy/mm/dd hh24:mi:ss'));
 insert into reservaties values (1458, 'Ben', to_date('2019/12/23 10:00:00','yyyy/mm/dd hh24:mi:ss'));
 insert into reservaties values (1458, NULL, to_date('2019/12/29 11:00:00','yyyy/mm/dd hh24:mi:ss'));
 insert into reservaties values (1458, NULL, to_date('2019/12/29 14:00:00','yyyy/mm/dd hh24:mi:ss'));

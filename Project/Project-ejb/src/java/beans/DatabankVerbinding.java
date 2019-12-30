@@ -93,71 +93,85 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         return lijst;
     }
     
-    public ArrayList getVrijeMomenten(String serie) {
+    public ArrayList getVrijeMomenten(String serie, Calendar maandag, Calendar zondag) {
         List queryres = em.createNamedQuery("Reservaties.findFreeMoment").setParameter("serienummer", new BigDecimal(serie)).getResultList();
         ArrayList lijst = new ArrayList();
+        Calendar datum = Calendar.getInstance();
+        int maand = datum.get(Calendar.MONTH);
         for (Object r : queryres) {
             String res[] = new String[3];
             res[0] = "Vrij";
-            res[1] = Integer.toString(((Reservaties) r).getReservatiesPK().getMoment().get(Calendar.DAY_OF_WEEK));
-            res[2] = Integer.toString(((Reservaties) r).getReservatiesPK().getMoment().get(Calendar.HOUR_OF_DAY));
-            lijst.add(res);
+            datum = ((Reservaties) r).getReservatiesPK().getMoment();
+            res[1] = Integer.toString(datum.get(Calendar.DAY_OF_MONTH));
+            res[2] = Integer.toString(datum.get(Calendar.HOUR_OF_DAY));
+
+            if(datum.after(maandag) && datum.before(zondag)){
+                lijst.add(res);
+            }
         }
         return lijst;
     }
-    public ArrayList getReservatieMomenten(String serie) {
+    public ArrayList getReservatieMomenten(String serie, Calendar maandag, Calendar zondag) {
         List queryres = em.createNamedQuery("Reservaties.findBySerienummer").setParameter("serienummer", new BigDecimal(serie)).getResultList();
         ArrayList lijst = new ArrayList();
         Calendar datum = Calendar.getInstance();
-        int week = datum.get(Calendar.WEEK_OF_YEAR);
-        datum.setFirstDayOfWeek(Calendar.MONDAY);
-        System.out.print("first day of week" + Integer.toString(datum.getFirstDayOfWeek()));
-        System.out.print("toegevoegd, week_of_year:" + Integer.toString(week));
         for (Object r : queryres) {
             String res[] = new String[3];
             res[0] = ((Reservaties) r).getGebruiker().getGebruikersnaam();
-            System.out.print(res[0]);
             datum = ((Reservaties) r).getReservatiesPK().getMoment();
-            res[1] = Integer.toString(datum.get(Calendar.DAY_OF_WEEK));
+            res[1] = Integer.toString(datum.get(Calendar.DAY_OF_MONTH));
             res[2] = Integer.toString(datum.get(Calendar.HOUR_OF_DAY));
-            System.out.print("week_of_year:" + Integer.toString(datum.get(Calendar.WEEK_OF_YEAR)));
-            lijst.add(res);
-            //if (datum.get(Calendar.WEEK_OF_YEAR)== week)
-            //{
-            //    System.out.print("toegevoegd, week_of_year:" + Integer.toString(datum.get(Calendar.WEEK_OF_YEAR)));
-            //    lijst.add(res);
-            //}
+
+            if(datum.after(maandag) && datum.before(zondag)){
+                lijst.add(res);
+            }
             
         }
         return lijst;
     }
     
-    public Object getMoment(String serienummer, String dag, String uur){
+    public Object getMoment(String serie, String jaar, String maand, String dag, String uur){
         Calendar date;
         date = Calendar.getInstance();
-        date.set(Calendar.DAY_OF_WEEK, Integer.parseInt(dag));
-        date.set(Calendar.HOUR_OF_DAY, Integer.parseInt(uur));
-        return (Reservaties) em.createNamedQuery("Reservaties.findByNaam").setParameter("serienummer", serienummer).setParameter("datum", date).getSingleResult();
+        date.set(Integer.parseInt(jaar), Integer.parseInt(maand), Integer.parseInt(dag), Integer.parseInt(uur), 0, 0);
+        List queryres = em.createNamedQuery("Reservaties.findFreeMoment").setParameter("serienummer", new BigDecimal(serie)).getResultList();
+        System.out.println(serie);
+        System.out.println(queryres.size());
+        System.out.println("Date: dag: " + date.get(Calendar.DAY_OF_MONTH )+ ", maand: " + date.get(Calendar.MONTH) + ", jaar: " + date.get(Calendar.YEAR));
+        for (Object r : queryres) {
+            Calendar datum = ((Reservaties)r).getReservatiesPK().getMoment();
+            System.out.println("DBmoment: dag: " + datum.get(Calendar.DAY_OF_MONTH )+ ", maand: " + datum.get(Calendar.MONTH) + ", jaar: " + datum.get(Calendar.YEAR));
+            if (datum.get(Calendar.DAY_OF_MONTH)== Integer.parseInt(dag)){
+                if ((datum.get(Calendar.MONTH)+1)== Integer.parseInt(maand)){
+                    if (datum.get(Calendar.YEAR)== Integer.parseInt(jaar)){
+                        return r;
+                    }
+                }
+            }
+        }
+        System.out.println("Moment niet gevonden");
+        return null;
+        
     }
     
     public Object getGebruiker(String naam){
-        return (Gebruikers) em.createNamedQuery("findByGebruikersnaam").setParameter("gebruikersnaam", naam).getSingleResult();
+        System.out.println("naam: " + naam);
+        return (Gebruikers) em.createNamedQuery("Gebruikers.findByGebruikersnaam").setParameter("gebruikersnaam", naam).getSingleResult();
     }
     
-    public void reserveer(String serienummer, String dag, String uur, String gebruiker) {
-        Reservaties r = (Reservaties) getMoment(serienummer, dag, uur);
-        
+    public void reserveer(String serienummer, String jaar, String maand, String dag, String uur, String gebruiker) {
+        Reservaties r = (Reservaties) getMoment(serienummer,jaar, maand, dag, uur);
+        System.out.println("res: " + r.toString());
         // m.setReservatiesCollection(reservatiesCollection);  //geen idee wat dit doet
        
-        r.setGebruiker((Gebruikers)getGebruiker(gebruiker));
-          
+        r.setGebruiker((Gebruikers)(em.createNamedQuery("Gebruikers.findByGebruikersnaam").setParameter("gebruikersnaam", gebruiker).getSingleResult()));
         em.persist(r);
     }
     
     public void voegVrijToe(String serienummer, String dag, String maand, String jaar, String uur){
         Reservaties r = new Reservaties();
         Calendar date = Calendar.getInstance();
-        date.set(Integer.parseInt(jaar), Integer.parseInt(maand), Integer.parseInt(dag), Integer.parseInt(uur), 0, 0);//kijken of dag juiste getal geeft
+        date.set(Integer.parseInt(jaar), Integer.parseInt(maand)-1, Integer.parseInt(dag), Integer.parseInt(uur), 0, 0);//kijken of dag juiste getal geeft
         r.setMachines((Machines) getMachine(serienummer));
         r.setReservatiesPK(new ReservatiesPK(new BigInteger(serienummer), date));
 
