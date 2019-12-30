@@ -84,9 +84,12 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
     public ArrayList getMachineReservaties(String serie) {
         List queryres = em.createNamedQuery("Reservaties.findBySerienummer").setParameter("serienummer", new BigDecimal(serie)).getResultList();
         ArrayList lijst = new ArrayList();
+        Calendar date;
         for (Object r : queryres) {
             String res[] = new String[2];
-            res[0] = ((Reservaties) r).getReservatiesPK().getMoment().toString();
+            
+            date = ((Reservaties) r).getReservatiesPK().getMoment();
+            res[0] = Integer.toString(date.get(Calendar.HOUR_OF_DAY)) + " uur, " + Integer.toString(date.get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(date.get(Calendar.MONTH)) + "/" + Integer.toString(date.get(Calendar.YEAR)); // aanpassen zodat alleen uur tem jaar w meegegeven
             res[1] = ((Reservaties) r).getGebruiker().getGebruikersnaam();
             lijst.add(res);
         }
@@ -135,12 +138,8 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         date = Calendar.getInstance();
         date.set(Integer.parseInt(jaar), Integer.parseInt(maand), Integer.parseInt(dag), Integer.parseInt(uur), 0, 0);
         List queryres = em.createNamedQuery("Reservaties.findFreeMoment").setParameter("serienummer", new BigDecimal(serie)).getResultList();
-        System.out.println(serie);
-        System.out.println(queryres.size());
-        System.out.println("Date: dag: " + date.get(Calendar.DAY_OF_MONTH )+ ", maand: " + date.get(Calendar.MONTH) + ", jaar: " + date.get(Calendar.YEAR));
         for (Object r : queryres) {
-            Calendar datum = ((Reservaties)r).getReservatiesPK().getMoment();
-            System.out.println("DBmoment: dag: " + datum.get(Calendar.DAY_OF_MONTH )+ ", maand: " + datum.get(Calendar.MONTH) + ", jaar: " + datum.get(Calendar.YEAR));
+            Calendar datum = ((Reservaties)r).getReservatiesPK().getMoment();            
             if (datum.get(Calendar.DAY_OF_MONTH)== Integer.parseInt(dag)){
                 if ((datum.get(Calendar.MONTH)+1)== Integer.parseInt(maand)){
                     if (datum.get(Calendar.YEAR)== Integer.parseInt(jaar)){
@@ -149,9 +148,22 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
                 }
             }
         }
-        System.out.println("Moment niet gevonden");
         return null;
         
+    }
+    
+    public ArrayList getReservaties(String gebruiker){
+        List queryres = em.createNamedQuery("Reservaties.findByGebruiker").setParameter("gebruiker", ((Gebruikers)getGebruiker(gebruiker))).getResultList();
+        ArrayList lijst = new ArrayList();
+        Calendar date;
+        for (Object r : queryres) {
+            String res[] = new String[2];
+            date = ((Reservaties) r).getReservatiesPK().getMoment();
+            res[0] = Integer.toString(date.get(Calendar.HOUR_OF_DAY)) + " uur, " + Integer.toString(date.get(Calendar.DAY_OF_MONTH)) + "/" + Integer.toString(date.get(Calendar.MONTH)) + "/" + Integer.toString(date.get(Calendar.YEAR));
+            res[1] = ((Reservaties) r).getMachines().getNaam();
+            lijst.add(res);
+        }
+        return lijst;
     }
     
     public Object getGebruiker(String naam){
