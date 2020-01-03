@@ -64,16 +64,9 @@
         <c:if test="${sessionScope.Rol == 'Docent' and sessionScope.docentopleiding == requestScope.machine.opleiding}">
             <form method="post" action="">
                 <input type="hidden" value="${requestScope.machine.serienummer}" name="serie">
-                
                 <input type="hidden" value="VoegMomentToe" name="actie">
                 <input type="submit" value="Voeg moment toe">
             </form>
         </c:if>
-        <c:forEach var="res" items="${requestScope.reservaties}">
-                user: ${res[0]}
-                dag: ${res[1]}
-                uur: ${res[2]}
-                <br>
-        </c:forEach>
     </body>
 </html>

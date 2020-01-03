@@ -29,6 +29,7 @@ import java.util.*;
     @NamedQuery(name = "Reservaties.findAll", query = "SELECT r FROM Reservaties r")
     , @NamedQuery(name = "Reservaties.findBySerienummer", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NOT NULL and r.reservatiesPK.serienummer = :serienummer")
     , @NamedQuery(name = "Reservaties.findFreeMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer")
+    , @NamedQuery(name = "Reservaties.findByGebruiker", query = "SELECT r FROM Reservaties r WHERE r.gebruiker = :gebruiker")
     , @NamedQuery(name = "Reservaties.findSingelMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer and r.reservatiesPK.moment = :datum")
     , @NamedQuery(name = "Reservaties.findByMoment", query = "SELECT r FROM Reservaties r WHERE r.reservatiesPK.moment = :moment")})
 public class Reservaties implements Serializable {

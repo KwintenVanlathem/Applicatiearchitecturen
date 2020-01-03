@@ -64,6 +64,11 @@ public class Controller extends HttpServlet {
                     view = request.getRequestDispatcher("detail.jsp");
                     break;
                 }
+                case "mijnReservaties":{
+                    request.setAttribute("reservaties", verbinding.getReservaties(request.getUserPrincipal().getName()));
+                    view = request.getRequestDispatcher("mijnReservaties.jsp");
+                    break;
+                }
                 case "reservatie": {
                     request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
                     Date today = new Date();
@@ -97,10 +102,29 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "Reserveer":{
+                    //if user == extern, ga naar beslis jsp pagina, dan eventueel verbinding.reserveer
+                    if(request.isUserInRole("Externe")){
+                        request.setAttribute("serie", request.getParameter("serie"));
+                        request.setAttribute("jaar", request.getParameter("jaar"));
+                        request.setAttribute("maand", request.getParameter("maand"));
+                        request.setAttribute("dag", request.getParameter("dag"));
+                        request.setAttribute("uur", request.getParameter("uur"));
+                        view = request.getRequestDispatcher("beslis.jsp");
+                        break;
+                    }
                     verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
                     view = request.getRequestDispatcher("overzicht.jsp");
                     break;
 //pas reservatie van moment dag+uur van machine serie aan met gebruikersnaam
+                }
+                case "goed":{
+                    verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
+                    view = request.getRequestDispatcher("overzicht.jsp");
+                    break;
+                }
+                case "terug":{
+                    view = request.getRequestDispatcher("overzicht.jsp");
+                    break;
                 }
                 case "VoegMomentToe":{
                     //request.setAttribute("serie",request.getParameter("serie"));

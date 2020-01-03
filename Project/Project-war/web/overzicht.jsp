@@ -45,5 +45,9 @@
                 <input type="submit" value="Voeg machine toe">
             </form>
         </c:if>
+        <form method="post" action="">
+                <input type="hidden" value="mijnReservaties" name="actie">
+                <input type="submit" value="Mijn reservaties">
+            </form>
     </body>
 </html>
