@@ -96,11 +96,12 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         return lijst;
     }
     
-    public ArrayList getVrijeMomenten(String serie, Calendar maandag, Calendar zondag) {
+    public ArrayList getVrijeMomenten(String serie, Calendar vandaag) {
         List queryres = em.createNamedQuery("Reservaties.findFreeMoment").setParameter("serienummer", new BigDecimal(serie)).getResultList();
         ArrayList lijst = new ArrayList();
-        Calendar datum = Calendar.getInstance();
-        int maand = datum.get(Calendar.MONTH);
+        Calendar datum;
+        Calendar eind = (Calendar) vandaag.clone();
+        eind.add(Calendar.DAY_OF_YEAR, 7);
         for (Object r : queryres) {
             String res[] = new String[3];
             res[0] = "Vrij";
@@ -108,16 +109,18 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
             res[1] = Integer.toString(datum.get(Calendar.DAY_OF_MONTH));
             res[2] = Integer.toString(datum.get(Calendar.HOUR_OF_DAY));
 
-            if(datum.after(maandag) && datum.before(zondag)){
+            if(datum.after(vandaag) && datum.before(eind)){
                 lijst.add(res);
             }
         }
         return lijst;
     }
-    public ArrayList getReservatieMomenten(String serie, Calendar maandag, Calendar zondag) {
+    public ArrayList getReservatieMomenten(String serie, Calendar vandaag) {
         List queryres = em.createNamedQuery("Reservaties.findBySerienummer").setParameter("serienummer", new BigDecimal(serie)).getResultList();
         ArrayList lijst = new ArrayList();
-        Calendar datum = Calendar.getInstance();
+        Calendar datum;
+        Calendar eind = (Calendar) vandaag.clone();
+        eind.add(Calendar.DAY_OF_YEAR, 7);
         for (Object r : queryres) {
             String res[] = new String[3];
             res[0] = ((Reservaties) r).getGebruiker().getGebruikersnaam();
@@ -125,7 +128,7 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
             res[1] = Integer.toString(datum.get(Calendar.DAY_OF_MONTH));
             res[2] = Integer.toString(datum.get(Calendar.HOUR_OF_DAY));
 
-            if(datum.after(maandag) && datum.before(zondag)){
+            if(datum.after(vandaag) && datum.before(eind)){
                 lijst.add(res);
             }
             
@@ -165,7 +168,10 @@ public class DatabankVerbinding implements DatabankVerbindingRemote {
         }
         return lijst;
     }
-    
+    public int getPrijs (String serienummer){
+        Machines m = (Machines)em.createNamedQuery("Machines.findBySerienummer").setParameter("serienummer", new BigDecimal(serienummer)).getSingleResult();
+        return m.getHuurprijs().intValue();
+    }
     public Object getGebruiker(String naam){
         System.out.println("naam: " + naam);
         return (Gebruikers) em.createNamedQuery("Gebruikers.findByGebruikersnaam").setParameter("gebruikersnaam", naam).getSingleResult();

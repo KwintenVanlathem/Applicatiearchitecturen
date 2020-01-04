@@ -71,59 +71,163 @@ public class Controller extends HttpServlet {
                 }
                 case "reservatie": {
                     request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
-                    Date today = new Date();
                     Calendar date = Calendar.getInstance();
-                    date.setTime(today);
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
-                    Calendar maandag = (Calendar)date.clone();
+                    Calendar vandaag = (Calendar)date.clone();
+                    Calendar pivot = (Calendar)date.clone();
+                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
                     
-                    date.add(Calendar.DAY_OF_YEAR, -((5 + date.get(Calendar.DAY_OF_WEEK))%7));
+                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
                     
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        date.add(Calendar.DAY_OF_YEAR, 1);
+                        if (date.before(pivot)){
+                            date.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+                        else{
+                            date.add(Calendar.DAY_OF_YEAR, -6);
+                        }
+                        
                     }
-                    Calendar zondag = (Calendar)date.clone();
                     request.setAttribute("dates", dates);
-                    //lijst = vrij  (if prof: +res)
-                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),maandag,zondag);
+
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),vandaag);
                     if (request.isUserInRole("Docent")) {
-                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),maandag,zondag));
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),vandaag));
                     }
-                    request.setAttribute("reservaties", lijst);//bij student moet vrije moment w meegegeven
+                    request.setAttribute("reservaties", lijst);
                     
                     view = request.getRequestDispatcher("reservatie.jsp");
                     break;
                 }
                 case "Reserveer":{
-                    //if user == extern, ga naar beslis jsp pagina, dan eventueel verbinding.reserveer
                     if(request.isUserInRole("Externe")){
                         request.setAttribute("serie", request.getParameter("serie"));
                         request.setAttribute("jaar", request.getParameter("jaar"));
                         request.setAttribute("maand", request.getParameter("maand"));
                         request.setAttribute("dag", request.getParameter("dag"));
                         request.setAttribute("uur", request.getParameter("uur"));
+                        request.setAttribute("prijs", verbinding.getPrijs(request.getParameter("serie")));
                         view = request.getRequestDispatcher("beslis.jsp");
                         break;
                     }
                     verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
-                    view = request.getRequestDispatcher("overzicht.jsp");
+                    
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.HOUR, 0);
+                    date.set(Calendar.MINUTE, 0);
+                    date.set(Calendar.SECOND, 0);
+                    Calendar vandaag = (Calendar)date.clone();
+                    Calendar pivot = (Calendar)date.clone();
+                    pivot.add(Calendar.DAY_OF_YEAR, 6);
+                    List<Integer> dates = new ArrayList<Integer>();
+                    
+                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
+                    
+                    for (int i = 0; i < 7; i++)
+                    {
+                        dates.add(date.get(Calendar.DAY_OF_MONTH));
+                        dates.add(date.get(Calendar.MONTH)+ 1);
+                        dates.add(date.get(Calendar.YEAR));
+                        if (date.before(pivot)){
+                            date.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+                        else{
+                            date.add(Calendar.DAY_OF_YEAR, -6);
+                        }
+                        
+                    }
+                    request.setAttribute("dates", dates);
+
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),vandaag);
+                    if (request.isUserInRole("Docent")) {
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),vandaag));
+                    }
+                    request.setAttribute("reservaties", lijst);
+                    
+                    view = request.getRequestDispatcher("reservatie.jsp");
                     break;
-//pas reservatie van moment dag+uur van machine serie aan met gebruikersnaam
                 }
                 case "goed":{
                     verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
-                    view = request.getRequestDispatcher("overzicht.jsp");
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.HOUR, 0);
+                    date.set(Calendar.MINUTE, 0);
+                    date.set(Calendar.SECOND, 0);
+                    Calendar vandaag = (Calendar)date.clone();
+                    Calendar pivot = (Calendar)date.clone();
+                    pivot.add(Calendar.DAY_OF_YEAR, 6);
+                    List<Integer> dates = new ArrayList<Integer>();
+                    
+                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
+                    
+                    for (int i = 0; i < 7; i++)
+                    {
+                        dates.add(date.get(Calendar.DAY_OF_MONTH));
+                        dates.add(date.get(Calendar.MONTH)+ 1);
+                        dates.add(date.get(Calendar.YEAR));
+                        if (date.before(pivot)){
+                            date.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+                        else{
+                            date.add(Calendar.DAY_OF_YEAR, -6);
+                        }
+                        
+                    }
+                    request.setAttribute("dates", dates);
+
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),vandaag);
+                    if (request.isUserInRole("Docent")) {
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),vandaag));
+                    }
+                    request.setAttribute("reservaties", lijst);
+                    
+                    view = request.getRequestDispatcher("reservatie.jsp");
                     break;
                 }
                 case "terug":{
-                    view = request.getRequestDispatcher("overzicht.jsp");
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.HOUR, 0);
+                    date.set(Calendar.MINUTE, 0);
+                    date.set(Calendar.SECOND, 0);
+                    Calendar vandaag = (Calendar)date.clone();
+                    Calendar pivot = (Calendar)date.clone();
+                    pivot.add(Calendar.DAY_OF_YEAR, 6);
+                    List<Integer> dates = new ArrayList<Integer>();
+                    
+                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
+                    
+                    for (int i = 0; i < 7; i++)
+                    {
+                        dates.add(date.get(Calendar.DAY_OF_MONTH));
+                        dates.add(date.get(Calendar.MONTH)+ 1);
+                        dates.add(date.get(Calendar.YEAR));
+                        if (date.before(pivot)){
+                            date.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+                        else{
+                            date.add(Calendar.DAY_OF_YEAR, -6);
+                        }
+                        
+                    }
+                    request.setAttribute("dates", dates);
+
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),vandaag);
+                    if (request.isUserInRole("Docent")) {
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),vandaag));
+                    }
+                    request.setAttribute("reservaties", lijst);
+                    
+                    view = request.getRequestDispatcher("reservatie.jsp");
                     break;
                 }
                 case "VoegMomentToe":{
@@ -136,8 +240,40 @@ public class Controller extends HttpServlet {
                 }
                 case "Toegevoegd":{
                     verbinding.voegVrijToe(request.getParameter("serie"), request.getParameter("dag"), request.getParameter("maand"), request.getParameter("jaar"), request.getParameter("uur"));
-                    //maand -1
-                    view = request.getRequestDispatcher("overzicht.jsp");
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.HOUR, 0);
+                    date.set(Calendar.MINUTE, 0);
+                    date.set(Calendar.SECOND, 0);
+                    Calendar vandaag = (Calendar)date.clone();
+                    Calendar pivot = (Calendar)date.clone();
+                    pivot.add(Calendar.DAY_OF_YEAR, 6);
+                    List<Integer> dates = new ArrayList<Integer>();
+                    
+                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
+                    
+                    for (int i = 0; i < 7; i++)
+                    {
+                        dates.add(date.get(Calendar.DAY_OF_MONTH));
+                        dates.add(date.get(Calendar.MONTH)+ 1);
+                        dates.add(date.get(Calendar.YEAR));
+                        if (date.before(pivot)){
+                            date.add(Calendar.DAY_OF_YEAR, 1);
+                        }
+                        else{
+                            date.add(Calendar.DAY_OF_YEAR, -6);
+                        }
+                        
+                    }
+                    request.setAttribute("dates", dates);
+
+                    List lijst = verbinding.getVrijeMomenten(request.getParameter("serie"),vandaag);
+                    if (request.isUserInRole("Docent")) {
+                        lijst.addAll(verbinding.getReservatieMomenten(request.getParameter("serie"),vandaag));
+                    }
+                    request.setAttribute("reservaties", lijst);
+                    
+                    view = request.getRequestDispatcher("reservatie.jsp");
                     break;
                 }
                 case "bewerkMachine": {

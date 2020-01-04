@@ -13,8 +13,9 @@
         <title>Reservaties</title>
     </head>
     <body>
+        <%@include file="header.jsp"%>
         <h1>Dit zijn uw reservaties!</h1>
-        <<table>
+        <table>
             <tr>
                 <th>Moment</th>
                 <th>Machine</th>
