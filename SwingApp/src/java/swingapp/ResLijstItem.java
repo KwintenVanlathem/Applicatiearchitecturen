@@ -2,10 +2,7 @@ package swingapp;
 
 import java.awt.*;
 import javax.swing.*;
-/**
- *
- * @author kwint
- */
+
 public class ResLijstItem extends JPanel {
     
     private JLabel naamL = new JLabel();
@@ -17,10 +14,5 @@ public class ResLijstItem extends JPanel {
         naamL.setText(" "+naam);
         add(momentL);
         add(naamL);
-        this.setBackground(new Color(200, 200, 200));
-        if(naam.equals("VRIJ")) {
-            this.setBackground(new Color(230, 230, 230));
-            naamL.setText("");
-        }
     }
 }

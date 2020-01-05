@@ -1,19 +1,11 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- * Author:  r0661567
- * Created: 13-nov-2019
- */
- 
+-- Databank: Oracle 11g
+
+-- Tabellen aanmaken
 drop table docenten purge;
 drop table reservaties purge;
 drop table machines purge;
 drop table groepen purge;
 drop table gebruikers purge;
-
 
 create table gebruikers(
     gebruikersnaam varchar2(20) primary key,
@@ -35,7 +27,6 @@ create table machines(
     huurprijs int
 );
 
-
 create table reservaties(
     serienummer int references machines,
     gebruiker varchar2(20) references gebruikers,
@@ -48,6 +39,7 @@ create table docenten(
     opleiding varchar2(10)
 );
 
+-- Tabellen vullen met inserts
 insert into gebruikers values ('Jantje', 'Jantje');
 insert into gebruikers values ('Herman', 'Herman');
 insert into gebruikers values ('Jonas', 'Jonas');
@@ -64,22 +56,68 @@ insert into docenten values ('Herman', 'ict');
 insert into docenten values ('Ivens', 'em');
 
 insert into machines values ('Trekbank', 'Trekbank voor het labo sterkteleer', 'A008', 'em', 465132, 75000, 120);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31501, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31502, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31503, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31504, 1100, 40);
 insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1458, 1800, 60);
-insert into machines values ('PC Ubuntu', 'PC met ubuntu 18.04 en quadro gpu in computerlokaal', 'A212', 'ict', 1459, 1800, 60);
 insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31120, 1100, 40);
-insert into machines values ('PC Win10', 'PC met windows 10 in computerlokaal', 'A213', 'ict', 31121, 1100, 40);
 
-insert into reservaties values (1458, 'Jantje', to_date('2019/12/29 13:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, 'Jonas', to_date('2019/12/31 17:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, 'Ben', to_date('2019/12/23 10:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/29 11:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/29 14:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/25 14:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/18 14:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/10 14:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/29 16:00:00','yyyy/mm/dd hh24:mi:ss'));
-insert into reservaties values (1458, NULL, to_date('2019/12/31 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (465132, NULL, to_date('2020/01/05 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Jonas', to_date('2020/01/05 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Jonas', to_date('2020/01/05 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/05 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Herman', to_date('2020/01/05 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Herman', to_date('2020/01/05 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/05 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Ben', to_date('2020/01/05 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/05 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, NULL, to_date('2020/01/05 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, 'Jantje', to_date('2020/01/05 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, NULL, to_date('2020/01/05 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, NULL, to_date('2020/01/06 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jonas', to_date('2020/01/06 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Herman', to_date('2020/01/06 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/06 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jantje', to_date('2020/01/06 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/06 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, 'Herman', to_date('2020/01/20 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/20 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Ben', to_date('2020/01/20 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Ben', to_date('2020/01/20 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jantje', to_date('2020/01/20 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jonas', to_date('2020/01/20 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/21 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (465132, NULL, to_date('2020/01/22 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/22 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/22 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/22 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, NULL, to_date('2020/01/22 17:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/22 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, 'Jonas', to_date('2020/01/22 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/22 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/22 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, 'Jantje', to_date('2020/01/22 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, 'Ben', to_date('2020/01/22 12:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, NULL, to_date('2020/01/22 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (31120, 'Ben', to_date('2020/01/22 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, NULL, to_date('2020/01/23 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, NULL, to_date('2020/01/24 09:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/24 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/24 11:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (465132, NULL, to_date('2020/01/25 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/25 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/25 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, 'Ivens', to_date('2020/01/25 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (465132, NULL, to_date('2020/01/25 17:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/25 13:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, NULL, to_date('2020/01/27 10:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/27 14:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/27 15:00:00','yyyy/mm/dd hh24:mi:ss'));
+insert into reservaties values (1458, NULL, to_date('2020/01/27 16:00:00','yyyy/mm/dd hh24:mi:ss'));
+
+insert into reservaties values (1458, NULL, to_date('2020/01/28 10:00:00','yyyy/mm/dd hh24:mi:ss'));

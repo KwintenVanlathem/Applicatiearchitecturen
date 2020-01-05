@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -16,10 +10,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Calendar;
 
-/**
- *
- * @author jelle
- */
 @Embeddable
 public class ReservatiesPK implements Serializable {
 

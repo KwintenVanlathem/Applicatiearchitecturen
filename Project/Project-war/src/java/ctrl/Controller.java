@@ -1,42 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ctrl;
 import beans.DatabankVerbindingRemote;
 import java.io.IOException;
 import java.util.*;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.time.*;
-/**
- *
- * @author r0661567
- */
+
 public class Controller extends HttpServlet {
 
     @EJB private DatabankVerbindingRemote verbinding;
-    
-   // public void init() {
-    //    ServletContext applicatie;
-      //  applicatie = getServletContext();   //voorlopig nutteloos, eventueel later??
-    //}
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher view;
@@ -53,14 +30,13 @@ public class Controller extends HttpServlet {
             session.setAttribute("Rol", "Externe");
         }
         
-        List machines = verbinding.getMachines();
-        session.setAttribute("Machines", machines);    //eerder response dan session??
+        session.setAttribute("Machines", verbinding.getMachines());
         
-        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje nie kan invullen, header maakt hier ook gebruik van
+        if (request.getParameterMap().containsKey("actie")) {   //omdat login.jsp het veldje niet kan invullen, header maakt hier ook gebruik van
             switch (request.getParameter("actie")) {
                 case "detail": {
-                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
-                   // System.out.print(verbinding.getMachine(request.getParameter("serie")));
+                    //System.out.print(verbinding.getMachine("Detail opvragen van " + request.getParameter("serie")));   //Debug info
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("detail.jsp");
                     break;
                 }
@@ -70,7 +46,7 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "reservatie": {
-                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     Calendar date = Calendar.getInstance();
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
@@ -93,7 +69,6 @@ public class Controller extends HttpServlet {
                         else{
                             date.add(Calendar.DAY_OF_YEAR, -6);
                         }
-                        
                     }
                     request.setAttribute("dates", dates);
 
@@ -119,7 +94,7 @@ public class Controller extends HttpServlet {
                     }
                     verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
                     
-                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     Calendar date = Calendar.getInstance();
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
@@ -142,7 +117,6 @@ public class Controller extends HttpServlet {
                         else{
                             date.add(Calendar.DAY_OF_YEAR, -6);
                         }
-                        
                     }
                     request.setAttribute("dates", dates);
 
@@ -157,7 +131,7 @@ public class Controller extends HttpServlet {
                 }
                 case "goed":{
                     verbinding.reserveer(request.getParameter("serie"),request.getParameter("jaar"), request.getParameter("maand"), request.getParameter("dag"), request.getParameter("uur"), request.getUserPrincipal().getName());
-                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     Calendar date = Calendar.getInstance();
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
@@ -194,7 +168,7 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "terug":{
-                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     Calendar date = Calendar.getInstance();
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
@@ -217,7 +191,6 @@ public class Controller extends HttpServlet {
                         else{
                             date.add(Calendar.DAY_OF_YEAR, -6);
                         }
-                        
                     }
                     request.setAttribute("dates", dates);
 
@@ -231,16 +204,14 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "VoegMomentToe":{
-                    //request.setAttribute("serie",request.getParameter("serie"));
-                    
-                    System.out.println("serienummer: " + request.getParameter("serie"));
+                    //System.out.println("Moment toevoegen voor " + request.getParameter("serie")); //Debug info
                     request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("NieuwMoment.jsp");
                     break;
                 }
                 case "Toegevoegd":{
                     verbinding.voegVrijToe(request.getParameter("serie"), request.getParameter("dag"), request.getParameter("maand"), request.getParameter("jaar"), request.getParameter("uur"));
-                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    request.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     Calendar date = Calendar.getInstance();
                     date.set(Calendar.HOUR, 0);
                     date.set(Calendar.MINUTE, 0);
@@ -262,8 +233,7 @@ public class Controller extends HttpServlet {
                         }
                         else{
                             date.add(Calendar.DAY_OF_YEAR, -6);
-                        }
-                        
+                        } 
                     }
                     request.setAttribute("dates", dates);
 
@@ -277,8 +247,8 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "bewerkMachine": {
-                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
-                   // System.out.print(verbinding.getMachine(request.getParameter("serie")));
+                    //System.out.print("Bewerk machine: " + verbinding.getMachine(request.getParameter("serie")));   //Debug info
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("bewerkMachine.jsp");
                     break;
                 }
@@ -287,16 +257,27 @@ public class Controller extends HttpServlet {
                     break;
                 }
                 case "new": {
-                    //nog checken dat serienummer wel beschikbaar is
-                    verbinding.newMachine(request.getParameter("serienummer"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
-                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serienummer")));    //eerder response dan session??
-                    view = request.getRequestDispatcher("detail.jsp");
+                    if (verbinding.bestaatSerie(request.getParameter("serienummer"))) {
+                        System.out.print("Serienummer al in gebruik");
+                        view = request.getRequestDispatcher("voegMachineToe.jsp");
+                    }
+                    else {
+                        verbinding.newMachine(request.getParameter("serienummer"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
+                        session.setAttribute("machine", verbinding.getMachine(request.getParameter("serienummer")));
+                        view = request.getRequestDispatcher("detail.jsp");
+                    }
                     break;
                 }
                 case "save": {
                     verbinding.updateMachine(request.getParameter("serie"), request.getParameter("opleiding"), request.getParameter("omschrijving"), request.getParameter("naam"), request.getParameter("aankoopprijs"), request.getParameter("huurprijs"), request.getParameter("lokaal"));
-                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));    //eerder response dan session??
+                    session.setAttribute("machine", verbinding.getMachine(request.getParameter("serie")));
                     view = request.getRequestDispatcher("detail.jsp");
+                    break;
+                }
+                case "logout":{
+                    session.invalidate();
+                    request.logout();
+                    view = request.getRequestDispatcher("login.jsp");
                     break;
                 }
                 default: {
@@ -308,7 +289,6 @@ public class Controller extends HttpServlet {
         else {
             view = request.getRequestDispatcher("overzicht.jsp");
         }
-        
         view.forward(request, response);
     }
 
@@ -350,5 +330,4 @@ public class Controller extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

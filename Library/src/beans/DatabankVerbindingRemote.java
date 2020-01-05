@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
 import java.util.ArrayList;
@@ -10,10 +5,6 @@ import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Remote;
 
-/**
- *
- * @author kwint
- */
 @Remote
 public interface DatabankVerbindingRemote {
     
@@ -31,4 +22,5 @@ public interface DatabankVerbindingRemote {
     public Object getMoment(String serienummer,String jaar, String maand, String dag, String uur);
     public void voegVrijToe(String serienummer, String dag, String maand, String jaar, String uur);
     public void reserveer(String serienummer, String jaar, String maand, String dag, String uur, String gebruiker);
+    public boolean bestaatSerie(String serienummer);
 }

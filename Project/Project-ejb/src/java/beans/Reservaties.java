@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package beans;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,18 +12,14 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.*;
 
-/**
- *
- * @author jelle
- */
 @Entity
 @Table(name = "RESERVATIES")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Reservaties.findAll", query = "SELECT r FROM Reservaties r")
-    , @NamedQuery(name = "Reservaties.findBySerienummer", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NOT NULL and r.reservatiesPK.serienummer = :serienummer")
+    , @NamedQuery(name = "Reservaties.findBySerienummer", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NOT NULL and r.reservatiesPK.serienummer = :serienummer order by r.reservatiesPK.moment")
     , @NamedQuery(name = "Reservaties.findFreeMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer")
-    , @NamedQuery(name = "Reservaties.findByGebruiker", query = "SELECT r FROM Reservaties r WHERE r.gebruiker = :gebruiker")
+    , @NamedQuery(name = "Reservaties.findByGebruiker", query = "SELECT r FROM Reservaties r WHERE r.gebruiker = :gebruiker order by r.reservatiesPK.moment")
     , @NamedQuery(name = "Reservaties.findSingelMoment", query = "SELECT r FROM Reservaties r WHERE r.gebruiker IS NULL and r.reservatiesPK.serienummer = :serienummer and r.reservatiesPK.moment = :datum")
     , @NamedQuery(name = "Reservaties.findByMoment", query = "SELECT r FROM Reservaties r WHERE r.reservatiesPK.moment = :moment")})
 public class Reservaties implements Serializable {

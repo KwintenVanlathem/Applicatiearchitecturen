@@ -19,7 +19,7 @@ public class Main {
     }
     
     public void toonResOverzicht(String serie) {
-        System.out.println(serie);
+        //System.out.println("Toon Reservaties van " + serie);    //Debug info
         new ResView(verbinding.getMachineReservaties(serie));
     }
 }
