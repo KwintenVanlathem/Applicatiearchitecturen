@@ -52,8 +52,6 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
-                    Calendar pivot = (Calendar)date.clone();
-                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
                     
                     date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
@@ -63,12 +61,8 @@ public class Controller extends HttpServlet {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        if (date.before(pivot)){
-                            date.add(Calendar.DAY_OF_YEAR, 1);
-                        }
-                        else{
-                            date.add(Calendar.DAY_OF_YEAR, -6);
-                        }
+                        
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
                     request.setAttribute("dates", dates);
 
@@ -100,8 +94,6 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
-                    Calendar pivot = (Calendar)date.clone();
-                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
                     
                     date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
@@ -111,12 +103,7 @@ public class Controller extends HttpServlet {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        if (date.before(pivot)){
-                            date.add(Calendar.DAY_OF_YEAR, 1);
-                        }
-                        else{
-                            date.add(Calendar.DAY_OF_YEAR, -6);
-                        }
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
                     request.setAttribute("dates", dates);
 
@@ -137,8 +124,6 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
-                    Calendar pivot = (Calendar)date.clone();
-                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
                     
                     date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
@@ -148,13 +133,7 @@ public class Controller extends HttpServlet {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        if (date.before(pivot)){
-                            date.add(Calendar.DAY_OF_YEAR, 1);
-                        }
-                        else{
-                            date.add(Calendar.DAY_OF_YEAR, -6);
-                        }
-                        
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
                     request.setAttribute("dates", dates);
 
@@ -174,8 +153,6 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
-                    Calendar pivot = (Calendar)date.clone();
-                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
                     
                     date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
@@ -185,12 +162,7 @@ public class Controller extends HttpServlet {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        if (date.before(pivot)){
-                            date.add(Calendar.DAY_OF_YEAR, 1);
-                        }
-                        else{
-                            date.add(Calendar.DAY_OF_YEAR, -6);
-                        }
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
                     request.setAttribute("dates", dates);
 

@@ -11,9 +11,6 @@
         <h1>Reservatie van: ${requestScope.machine.naam} (${requestScope.machine.serienummer})</h1>
         <table>
             <tr>
-                <th></th><th>Maandag</th><th>Dinsdag</th><th>Woensdag</th><th>Donderdag</th><th>Vrijdag</th><th>Zaterdag</th><th>Zondag</th>
-            </tr>
-            <tr>
                 <th>Uur:</th>
                 <c:forEach var="index" begin="0" end="6">
                 <th>${requestScope.dates.get(3*index)}/${requestScope.dates.get(3*index+1)}</th>
