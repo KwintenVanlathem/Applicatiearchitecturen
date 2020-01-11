@@ -54,8 +54,6 @@ public class Controller extends HttpServlet {
                     Calendar vandaag = (Calendar)date.clone();
                     List<Integer> dates = new ArrayList<Integer>();
                     
-                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
-                    
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
@@ -96,8 +94,6 @@ public class Controller extends HttpServlet {
                     Calendar vandaag = (Calendar)date.clone();
                     List<Integer> dates = new ArrayList<Integer>();
                     
-                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
-                    
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
@@ -126,8 +122,6 @@ public class Controller extends HttpServlet {
                     Calendar vandaag = (Calendar)date.clone();
                     List<Integer> dates = new ArrayList<Integer>();
                     
-                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
-                    
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
@@ -154,8 +148,6 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
                     List<Integer> dates = new ArrayList<Integer>();
-                    
-                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
                     
                     for (int i = 0; i < 7; i++)
                     {
@@ -189,23 +181,14 @@ public class Controller extends HttpServlet {
                     date.set(Calendar.MINUTE, 0);
                     date.set(Calendar.SECOND, 0);
                     Calendar vandaag = (Calendar)date.clone();
-                    Calendar pivot = (Calendar)date.clone();
-                    pivot.add(Calendar.DAY_OF_YEAR, 6);
                     List<Integer> dates = new ArrayList<Integer>();
-                    
-                    date.add(Calendar.DAY_OF_YEAR, +((9 - date.get(Calendar.DAY_OF_WEEK))%7));
                     
                     for (int i = 0; i < 7; i++)
                     {
                         dates.add(date.get(Calendar.DAY_OF_MONTH));
                         dates.add(date.get(Calendar.MONTH)+ 1);
                         dates.add(date.get(Calendar.YEAR));
-                        if (date.before(pivot)){
-                            date.add(Calendar.DAY_OF_YEAR, 1);
-                        }
-                        else{
-                            date.add(Calendar.DAY_OF_YEAR, -6);
-                        } 
+                        date.add(Calendar.DAY_OF_YEAR, 1);
                     }
                     request.setAttribute("dates", dates);
 
