@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.7
+Created-By: 1.8.0_231-b11 (Oracle Corporation)
+X-COMMENT: Main-Class will be added automatically by build
+Class-Path: Library.jar lib/Library.jar 
+Main-Class: swingapp.Main
+
